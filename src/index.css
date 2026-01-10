@@ -17,12 +17,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 body {
   width: 100%;
   margin: 0;
 }
-
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -36,8 +34,6 @@ body {
     }
   }
 }
-
-
 
 @layer base {
   :root {
@@ -110,8 +106,6 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
-
-
 
 @layer base {
   * {

@@ -1,17 +1,17 @@
-import type { ReactNode } from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import type { ReactNode } from 'react';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/app-sidebar';
 
 const Layout = ({ children }: { children: ReactNode }) => {
-	return (
-		<SidebarProvider>
-			<AppSidebar />
-			<main className="w-full">
-				<SidebarTrigger />
-				{children}
-			</main>
-		</SidebarProvider>
-	);
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="w-full">
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  );
 };
 
 export default Layout;
