@@ -1,5 +1,5 @@
 {
-  // shadcn/ui 添加组件时会按照这个@路径进行安装
+  // UI 组件和业务代码统一使用 @ 别名
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
