@@ -1,0 +1,12 @@
+@import "./themes/base.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 企业级：给全局加默认底色 & 字色 */
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}

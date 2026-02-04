@@ -42,7 +42,7 @@ type AppSidebarProps = {
   collapsed: boolean;
 };
 
-export function AppSidebar({ collapsed }: AppSidebarProps) {
+export function Sidebar({ collapsed }: AppSidebarProps) {
   return (
     <Sider
       theme="dark"
@@ -52,7 +52,8 @@ export function AppSidebar({ collapsed }: AppSidebarProps) {
       width={240}
       collapsedWidth={80}
     >
-      <div className="flex h-16 items-center gap-2 px-4">
+      <div className="w-[60px] h-[60px] text-red-500 bg-sidebar-ring">123</div>
+      <div className="flex h-16 items-center  gap-2 px-4">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-blue-500 text-white">
           F
         </div>

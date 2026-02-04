@@ -1,0 +1,67 @@
+import type { ThemeConfig } from 'antd';
+import { chartTokens, colorTokens, sidebarTokens } from '@/styles/tokens/tokens';
+
+export const antdTheme: ThemeConfig = {
+  cssVar: { key: 'nocodeflow' },
+  token: {
+    colorPrimary: colorTokens.primary,
+    colorSuccess: colorTokens.accent,
+    colorWarning: chartTokens[4],
+    colorError: colorTokens.destructive,
+    colorInfo: colorTokens.accent,
+    colorLink: colorTokens.accent,
+    colorTextBase: colorTokens.foreground,
+    colorBgBase: colorTokens.background,
+    colorBorder: colorTokens.border,
+    colorBgContainer: colorTokens.card,
+    colorBgElevated: colorTokens.popover,
+    colorText: colorTokens.foreground,
+    colorTextSecondary: colorTokens['muted-foreground'],
+    colorTextTertiary: colorTokens['muted-foreground'],
+    colorTextLightSolid: colorTokens['primary-foreground'],
+    borderRadius: 8,
+  },
+  components: {
+    Layout: {
+      headerBg: colorTokens.card,
+      bodyBg: colorTokens.background,
+      siderBg: sidebarTokens.background,
+      triggerBg: sidebarTokens.primary,
+      triggerColor: sidebarTokens['primary-foreground'],
+      lightSiderBg: sidebarTokens.background,
+      lightTriggerBg: sidebarTokens.accent,
+      lightTriggerColor: sidebarTokens['accent-foreground'],
+    },
+    Menu: {
+      itemBg: sidebarTokens.background,
+      itemColor: sidebarTokens.foreground,
+      itemHoverBg: sidebarTokens.accent,
+      itemHoverColor: sidebarTokens['accent-foreground'],
+      itemSelectedBg: sidebarTokens.primary,
+      itemSelectedColor: sidebarTokens['primary-foreground'],
+      darkItemBg: sidebarTokens.background,
+      darkItemColor: sidebarTokens.foreground,
+      darkItemHoverBg: sidebarTokens.accent,
+      darkItemHoverColor: sidebarTokens['accent-foreground'],
+      darkItemSelectedBg: sidebarTokens.primary,
+      darkItemSelectedColor: sidebarTokens['primary-foreground'],
+    },
+    Button: {
+      colorPrimary: colorTokens.primary,
+      colorPrimaryText: colorTokens['primary-foreground'],
+      primaryShadow: 'none',
+    },
+    Input: {
+      colorBgContainer: colorTokens.card,
+      colorBorder: colorTokens.input,
+      activeBorderColor: colorTokens.ring,
+      hoverBorderColor: colorTokens.ring,
+    },
+    Select: {
+      colorBgContainer: colorTokens.card,
+      colorBorder: colorTokens.input,
+      activeBorderColor: colorTokens.ring,
+      hoverBorderColor: colorTokens.ring,
+    },
+  },
+};
