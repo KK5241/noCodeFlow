@@ -1,40 +1,28 @@
-import {
-  CalendarOutlined,
-  HomeOutlined,
-  InboxOutlined,
-  SearchOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
-import type { MenuProps } from 'antd';
+import { ApartmentOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Layout, Tooltip } from 'antd';
 
 const { Sider } = Layout;
 
-const items: MenuProps['items'] = [
+const workflows = [
   {
-    key: 'home',
-    icon: <HomeOutlined />,
-    label: 'Home',
+    id: 'image-classification',
+    title: 'Image Classification Pipeline',
   },
   {
-    key: 'inbox',
-    icon: <InboxOutlined />,
-    label: 'Inbox',
+    id: 'text-summary',
+    title: 'Text Summarization',
   },
   {
-    key: 'calendar',
-    icon: <CalendarOutlined />,
-    label: 'Calendar',
+    id: 'data-preprocessing',
+    title: 'Data Preprocessing',
   },
   {
-    key: 'search',
-    icon: <SearchOutlined />,
-    label: 'Search',
+    id: 'sentiment-analysis',
+    title: 'Sentiment Analysis',
   },
   {
-    key: 'settings',
-    icon: <SettingOutlined />,
-    label: 'Settings',
+    id: 'document-extraction',
+    title: 'Document Extraction',
   },
 ];
 
@@ -45,21 +33,74 @@ type AppSidebarProps = {
 export function Sidebar({ collapsed }: AppSidebarProps) {
   return (
     <Sider
-      theme="dark"
+      theme="light"
       trigger={null}
       collapsible
       collapsed={collapsed}
-      width={240}
-      collapsedWidth={80}
+      width={300}
+      collapsedWidth={72}
+      style={{ borderRight: '1px solid #e8e8e8', background: '#f5f5f5' }}
     >
-      <div className="w-[60px] h-[60px] text-red-500 bg-sidebar-ring">123</div>
-      <div className="flex h-16 items-center  gap-2 px-4">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-blue-500 text-white">
-          F
+      <div className="flex h-full flex-col">
+        <div className="border-b border-[#e8e8e8] px-3 py-4">
+          <div className="mb-3 flex items-center justify-between">
+            {!collapsed && (
+              <span className="font-semibold tracking-wide text-[#666]">WORKFLOWS</span>
+            )}
+            <Button
+              type="text"
+              icon={<PlusOutlined />}
+              size="small"
+              style={{ color: '#444', width: 28, height: 28 }}
+            />
+          </div>
+
+          {!collapsed && (
+            <Input
+              prefix={<SearchOutlined className="text-[#9a9a9a]" />}
+              placeholder="Search workflows..."
+              style={{ borderRadius: 10, background: '#fff' }}
+            />
+          )}
         </div>
-        {!collapsed && <span className="text-lg font-bold text-white">Flow</span>}
+
+        <div className="flex-1 overflow-auto p-2">
+          {workflows.map((workflow, index) => {
+            const isActive = index === 0;
+
+            return (
+              <Tooltip key={workflow.id} title={collapsed ? workflow.title : ''} placement="right">
+                <button
+                  type="button"
+                  className={`mb-1 w-full rounded-xl px-3 py-2 text-left transition ${
+                    isActive ? 'bg-[#e7e7e7]' : 'hover:bg-[#ebebeb]'
+                  }`}
+                >
+                  <div className="flex items-start gap-2">
+                    <ApartmentOutlined className="mt-0.5 text-[#7a7a7a]" />
+                    {!collapsed && (
+                      <div className="min-w-0">
+                        <div className="truncate font-medium text-[#1f1f1f]">{workflow.title}</div>
+                      </div>
+                    )}
+                  </div>
+                </button>
+              </Tooltip>
+            );
+          })}
+        </div>
+
+        <div className="border-t border-[#e8e8e8] p-3">
+          <Button
+            type="primary"
+            block={!collapsed}
+            icon={<PlusOutlined />}
+            style={{ borderRadius: 10, height: 42, fontWeight: 600 }}
+          >
+            {!collapsed ? 'New Workflow' : undefined}
+          </Button>
+        </div>
       </div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']} items={items} />
     </Sider>
   );
 }

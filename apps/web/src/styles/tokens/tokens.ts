@@ -16,6 +16,7 @@ export const colorTokens = {
   popover: varRef('popover'),
   'popover-foreground': varRef('popover-foreground'),
   primary: varRef('primary'),
+  'primary-hover': varRef('primary-hover'),
   'primary-foreground': varRef('primary-foreground'),
   secondary: varRef('secondary'),
   'secondary-foreground': varRef('secondary-foreground'),

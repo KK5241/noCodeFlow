@@ -48,6 +48,8 @@ export const antdTheme: ThemeConfig = {
     },
     Button: {
       colorPrimary: colorTokens.primary,
+      colorPrimaryBg: colorTokens.primary,
+      colorPrimaryHover: colorTokens['primary-hover'],
       colorPrimaryText: colorTokens['primary-foreground'],
       primaryShadow: 'none',
     },
@@ -62,6 +64,11 @@ export const antdTheme: ThemeConfig = {
       colorBorder: colorTokens.input,
       activeBorderColor: colorTokens.ring,
       hoverBorderColor: colorTokens.ring,
+    },
+    Collapse: {
+      /* 这里是你的组件 token */
+      contentBg: colorTokens.background,
+      borderRadiusLG: 0,
     },
   },
 };

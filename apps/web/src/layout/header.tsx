@@ -1,5 +1,4 @@
 import {
-  AppstoreFilled,
   CheckCircleOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
@@ -13,7 +12,17 @@ const Header = () => {
       <div className="flex h-12 items-center justify-between bg-white px-4">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-[#62c767] text-white">
-            <AppstoreFilled style={{ fontSize: 14 }} />
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className="h-4 w-4 text-accent-foreground"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
           </div>
           <span className="text-sm font-semibold text-foreground">Visual AI Workflow Builder</span>
           <span className="text-muted-foreground">/</span>
@@ -21,25 +30,15 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-lg bg-[#f4f4f4] px-3 py-1.5 text-[15px] text-[#222]">
-            <CheckCircleOutlined style={{ fontSize: 14 }} />
+          <div className="flex items-center gap-2 rounded-lg bg-[#f4f4f4] px-3 py-1.5">
+            <CheckCircleOutlined />
             <span>Ready</span>
           </div>
-          <Divider type="vertical" style={{ margin: 0, height: 24 }} />
+
+          <Divider orientation="vertical" style={{ borderColor: '#e6e6e6' }} />
           <Button type="text" icon={<QuestionCircleOutlined />} />
           <Button type="text" icon={<SettingOutlined />} />
-          <Button
-            type="primary"
-            icon={<PlayCircleFilled />}
-            style={{
-              height: 40,
-              borderRadius: 10,
-              background: '#151515',
-              borderColor: '#151515',
-              paddingInline: 16,
-              fontWeight: 500,
-            }}
-          >
+          <Button type="primary" icon={<PlayCircleFilled />}>
             Run Workflow
           </Button>
         </div>
