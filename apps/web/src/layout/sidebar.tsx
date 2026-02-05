@@ -1,36 +1,20 @@
 import { ApartmentOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Layout, Tooltip } from 'antd';
+import { Button, Empty, Input, Layout, Spin, Tooltip } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+import useConversationStore from '@/store';
 
 const { Sider } = Layout;
-
-const workflows = [
-  {
-    id: 'image-classification',
-    title: 'Image Classification Pipeline',
-  },
-  {
-    id: 'text-summary',
-    title: 'Text Summarization',
-  },
-  {
-    id: 'data-preprocessing',
-    title: 'Data Preprocessing',
-  },
-  {
-    id: 'sentiment-analysis',
-    title: 'Sentiment Analysis',
-  },
-  {
-    id: 'document-extraction',
-    title: 'Document Extraction',
-  },
-];
 
 type AppSidebarProps = {
   collapsed: boolean;
 };
 
 export function Sidebar({ collapsed }: AppSidebarProps) {
+  const navigate = useNavigate();
+  const { conversationId } = useParams<{ conversationId: string }>();
+  const conversations = useConversationStore((state) => state.conversations);
+  const loadingConversations = useConversationStore((state) => state.loadingConversations);
+
   return (
     <Sider
       theme="light"
@@ -65,13 +49,29 @@ export function Sidebar({ collapsed }: AppSidebarProps) {
         </div>
 
         <div className="flex-1 overflow-auto p-2">
-          {workflows.map((workflow, index) => {
-            const isActive = index === 0;
+          {loadingConversations && (
+            <div className="flex justify-center pt-4">
+              <Spin size="small" />
+            </div>
+          )}
 
+          {/* 无对话记录展示空icon */}
+          {!loadingConversations && conversations.length === 0 && !collapsed && (
+            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No conversations" />
+          )}
+
+          {/* 工作流历史记录 */}
+          {conversations.map((conversation) => {
+            const isActive = conversation.id === conversationId;
             return (
-              <Tooltip key={workflow.id} title={collapsed ? workflow.title : ''} placement="right">
+              <Tooltip
+                key={conversation.id}
+                title={collapsed ? conversation.title : ''}
+                placement="right"
+              >
                 <button
                   type="button"
+                  onClick={() => navigate(`/workflow/${conversation.id}`)}
                   className={`mb-1 w-full rounded-xl px-3 py-2 text-left transition ${
                     isActive ? 'bg-[#e7e7e7]' : 'hover:bg-[#ebebeb]'
                   }`}
@@ -80,7 +80,9 @@ export function Sidebar({ collapsed }: AppSidebarProps) {
                     <ApartmentOutlined className="mt-0.5 text-[#7a7a7a]" />
                     {!collapsed && (
                       <div className="min-w-0">
-                        <div className="truncate font-medium text-[#1f1f1f]">{workflow.title}</div>
+                        <div className="truncate font-medium text-[#1f1f1f]">
+                          {conversation.title}
+                        </div>
                       </div>
                     )}
                   </div>

@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   AimOutlined,
   ExpandOutlined,
@@ -6,7 +7,7 @@ import {
   ZoomInOutlined,
   ZoomOutOutlined,
 } from '@ant-design/icons';
-import { Button, Collapse, Divider, Input, Select } from 'antd';
+import { Button, Collapse, Divider, Input, Select, Spin } from 'antd';
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -21,6 +22,9 @@ import ReactFlow, {
   type Node,
   type NodeProps,
 } from 'reactflow';
+import { fetchConversationDetail } from '@/mock/workflow/api';
+import type { ConversationDetail } from '@/mock/workflow/data';
+import useConversationStore from '@/store';
 
 import 'reactflow/dist/style.css';
 
@@ -104,26 +108,67 @@ const initialEdges: Edge[] = [
   { id: 'e2-4', source: '2', target: '4', markerEnd: { type: MarkerType.ArrowClosed } },
 ];
 
-const logs = [
-  '14:32:01.234   [Data Input]      Starting workflow execution...',
-  '14:32:01.456   [Data Input]      Connected to API endpoint successfully',
-  '14:32:02.123   [GPT-4]           Processing batch 1 of 3...',
-  '14:32:04.567   [GPT-4]           Batch 1 completed: 245 tokens used',
-  '14:32:05.012   [Transform]       Rate limit approaching: 80% of quota used',
-  '14:32:06.789   [Filter]          Filtering results with condition: score > 0.8',
-  '14:32:07.234   [Filter]          Filtered 127 items from 245 total',
-  '14:32:08.456   [Output]          Writing results to destination...',
-];
-
 const WorkflowPage = () => {
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [conversationDetail, setConversationDetail] = useState<ConversationDetail | null>(null);
+  const [resolvedConversationId, setResolvedConversationId] = useState<string | null>(null);
+
+  const { conversationId } = useParams<{ conversationId: string }>();
+
+  const navigate = useNavigate();
+
+  const conversations = useConversationStore((state) => state.conversations);
+  const fetchConversations = useConversationStore((state) => state.fetchConversations);
 
   const onConnect = useCallback(
     (params: Connection | Edge) =>
       setEdges((eds) => addEdge({ ...params, markerEnd: { type: MarkerType.ArrowClosed } }, eds)),
     [setEdges]
   );
+
+  // 获取工作流历史记录
+  useEffect(() => {
+    fetchConversations();
+  }, [fetchConversations]);
+
+  // 路由无id（首次进入）导航到第一个工作流
+  useEffect(() => {
+    if (!conversationId && conversations.length > 0) {
+      navigate(`/workflow/${conversations[0].id}`, { replace: true });
+    }
+  }, [conversationId, conversations, navigate]);
+
+  // 加载工作流详细信息
+  useEffect(() => {
+    if (!conversationId) {
+      return;
+    }
+
+    let active = true;
+    fetchConversationDetail(conversationId)
+      .then((detail) => {
+        if (!active) {
+          return;
+        }
+        setConversationDetail(detail);
+        setResolvedConversationId(conversationId);
+      })
+      .catch(() => {
+        if (!active) {
+          return;
+        }
+        setConversationDetail(null);
+        setResolvedConversationId(conversationId);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [conversationId]);
+
+  const loadingDetail = Boolean(conversationId && resolvedConversationId !== conversationId);
+  const logs = conversationDetail?.logs ?? [];
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#f5f5f5]">
@@ -169,7 +214,7 @@ const WorkflowPage = () => {
           </ReactFlow>
         </section>
 
-        <aside className="w-[350px] bg-[#f9f9f9] flex flex-col">
+        <aside className="flex w-[350px] flex-col bg-[#f9f9f9]">
           <div className="flex h-[50px] items-center justify-between border-b border-[#e8e8e8] px-4">
             <span className="font-semibold text-[#1f1f1f]">Node Configuration</span>
             <button type="button" className="text-xl leading-none text-[#8c8c8c]">
@@ -177,47 +222,64 @@ const WorkflowPage = () => {
             </button>
           </div>
 
-          <div className="space-y-6 p-4  flex-1 overflow-auto">
-            <div className="space-y-3">
-              <div className="font-semibold uppercase tracking-wide text-[#7d7d7d]">General</div>
-              <label className="block space-y-1">
-                <span className="text-[#4a4a4a]">Node Name</span>
-                <Input defaultValue="GPT-4 Processing" />
-              </label>
-              <label className="block space-y-1">
-                <span className="text-[#4a4a4a]">Description</span>
-                <Input.TextArea rows={3} placeholder="Add a description..." />
-              </label>
-            </div>
-
-            <Divider style={{ margin: 0 }} />
-
-            <div className="space-y-3">
-              <div className="font-semibold uppercase tracking-wide text-[#7d7d7d]">
-                AI Model Settings
+          <div className="flex-1 overflow-auto p-4">
+            {loadingDetail ? (
+              <div className="flex h-28 items-center justify-center">
+                <Spin />
               </div>
-              <label className="block space-y-1">
-                <span className="text-[#4a4a4a]">Model</span>
-                <Select
-                  defaultValue="gpt-4"
-                  options={[
-                    { label: 'GPT-4', value: 'gpt-4' },
-                    { label: 'GPT-4o', value: 'gpt-4o' },
-                  ]}
-                />
-              </label>
-              <label className="block space-y-1">
-                <span className="text-[#4a4a4a]">Temperature</span>
-                <Input defaultValue="0.7" />
-              </label>
-              <label className="block space-y-1">
-                <span className="text-[#4a4a4a]">System Prompt</span>
-                <Input.TextArea
-                  rows={4}
-                  defaultValue="You are a helpful assistant that processes data according to the workflow requirements."
-                />
-              </label>
-            </div>
+            ) : (
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <div className="font-semibold uppercase tracking-wide text-[#7d7d7d]">
+                    General
+                  </div>
+                  <label className="block space-y-1">
+                    <span className="text-[#4a4a4a]">Node Name</span>
+                    <Input value={conversationDetail?.nodeName ?? ''} readOnly />
+                  </label>
+                  <label className="block space-y-1">
+                    <span className="text-[#4a4a4a]">Description</span>
+                    <Input.TextArea
+                      rows={3}
+                      value={conversationDetail?.description ?? ''}
+                      placeholder="Add a description..."
+                      readOnly
+                    />
+                  </label>
+                </div>
+
+                <Divider style={{ margin: 0 }} />
+
+                <div className="space-y-3">
+                  <div className="font-semibold uppercase tracking-wide text-[#7d7d7d]">
+                    AI Model Settings
+                  </div>
+                  <label className="block space-y-1">
+                    <span className="text-[#4a4a4a]">Model</span>
+                    <Select
+                      value={conversationDetail?.model}
+                      options={[
+                        { label: 'GPT-4', value: 'gpt-4' },
+                        { label: 'GPT-4o', value: 'gpt-4o' },
+                      ]}
+                      disabled
+                    />
+                  </label>
+                  <label className="block space-y-1">
+                    <span className="text-[#4a4a4a]">Temperature</span>
+                    <Input value={conversationDetail?.temperature ?? ''} readOnly />
+                  </label>
+                  <label className="block space-y-1">
+                    <span className="text-[#4a4a4a]">System Prompt</span>
+                    <Input.TextArea
+                      rows={4}
+                      value={conversationDetail?.systemPrompt ?? ''}
+                      readOnly
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
           </div>
         </aside>
       </div>
@@ -229,7 +291,7 @@ const WorkflowPage = () => {
               key: '1',
               label: 'Execution Logs',
               children: (
-                <div className="h-[calc(100%-48px)] overflow-auto bg-[#fafafa]">
+                <div className="max-h-48 overflow-auto bg-[#fafafa]">
                   <div className="space-y-2 font-mono text-[13px] text-[#4e4e4e]">
                     {logs.map((line) => (
                       <div key={line}>{line}</div>

@@ -1,19 +1,19 @@
-import { type ReactNode } from 'react';
 import { Layout as AntLayout } from 'antd';
-import Header from '@/layout/header';
+import AppHeader from '@/layout/header';
 import { Sidebar } from '@/layout/sidebar';
+import { Outlet } from 'react-router-dom';
 
-const Layout = ({ children }: { children: ReactNode }) => {
+const Layout = () => {
   const collapsed = false;
 
   return (
     <AntLayout style={{ height: '100vh' }}>
-      <Header />
+      <AppHeader />
       <AntLayout style={{ flex: 1, minHeight: 0 }}>
         <Sidebar collapsed={collapsed} />
         <AntLayout style={{ minHeight: 0 }}>
           <AntLayout.Content style={{ minHeight: 0 }}>
-            <div className="h-full">{children}</div>
+            <div className="h-full">{<Outlet />}</div>
           </AntLayout.Content>
         </AntLayout>
       </AntLayout>

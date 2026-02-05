@@ -1,14 +1,11 @@
-import {
-  CheckCircleOutlined,
-  QuestionCircleOutlined,
-  SettingOutlined,
-  PlayCircleFilled,
-} from '@ant-design/icons';
-import { Button, Divider } from 'antd';
+import { CheckCircleOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
+import { Button, Divider, Layout } from 'antd';
 
-const Header = () => {
+const { Header } = Layout;
+
+const AppHeader = () => {
   return (
-    <header className="border-b border-[#e6e6e6] bg-[#f6f6f7]">
+    <Header className="border-b border-[#e6e6e6] bg-[#f6f6f7]">
       <div className="flex h-12 items-center justify-between bg-white px-4">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-[#62c767] text-white">
@@ -38,13 +35,10 @@ const Header = () => {
           <Divider orientation="vertical" style={{ borderColor: '#e6e6e6' }} />
           <Button type="text" icon={<QuestionCircleOutlined />} />
           <Button type="text" icon={<SettingOutlined />} />
-          <Button type="primary" icon={<PlayCircleFilled />}>
-            Run Workflow
-          </Button>
         </div>
       </div>
-    </header>
+    </Header>
   );
 };
 
-export default Header;
+export default AppHeader;
