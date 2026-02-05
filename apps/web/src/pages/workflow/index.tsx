@@ -24,7 +24,7 @@ import ReactFlow, {
 } from 'reactflow';
 import { fetchConversationDetail } from '@/mock/workflow/api';
 import type { ConversationDetail } from '@/mock/workflow/data';
-import useConversationStore from '@/store';
+import useWorkflowHistoryStore from '@/store';
 
 import 'reactflow/dist/style.css';
 
@@ -118,8 +118,8 @@ const WorkflowPage = () => {
 
   const navigate = useNavigate();
 
-  const conversations = useConversationStore((state) => state.conversations);
-  const fetchConversations = useConversationStore((state) => state.fetchConversations);
+  const workflowHistories = useWorkflowHistoryStore((state) => state.workflowHistories);
+  const fetchWorkflowHistories = useWorkflowHistoryStore((state) => state.fetchWorkflowHistories);
 
   const onConnect = useCallback(
     (params: Connection | Edge) =>
@@ -129,15 +129,15 @@ const WorkflowPage = () => {
 
   // 获取工作流历史记录
   useEffect(() => {
-    fetchConversations();
-  }, [fetchConversations]);
+    fetchWorkflowHistories();
+  }, [fetchWorkflowHistories]);
 
   // 路由无id（首次进入）导航到第一个工作流
   useEffect(() => {
-    if (!conversationId && conversations.length > 0) {
-      navigate(`/workflow/${conversations[0].id}`, { replace: true });
+    if (!conversationId && workflowHistories.length > 0) {
+      navigate(`/workflow/${workflowHistories[0].id}`, { replace: true });
     }
-  }, [conversationId, conversations, navigate]);
+  }, [conversationId, workflowHistories, navigate]);
 
   // 加载工作流详细信息
   useEffect(() => {

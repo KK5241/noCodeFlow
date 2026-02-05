@@ -2,26 +2,26 @@ import { create } from 'zustand';
 import { fetchConversationList } from '@/mock/workflow/api';
 import type { ConversationSummary } from '@/mock/workflow/data';
 
-type ConversationStore = {
-  conversations: ConversationSummary[];
-  loadingConversations: boolean;
+type WorkflowHistoryStore = {
+  workflowHistories: ConversationSummary[];
+  loadingWorkflowHistories: boolean;
   loaded: boolean;
-  fetchConversations: () => Promise<void>;
+  fetchWorkflowHistories: () => Promise<void>;
 };
 
-const useConversationStore = create<ConversationStore>((set, get) => ({
-  conversations: [],
-  loadingConversations: false,
+const useWorkflowHistoryStore = create<WorkflowHistoryStore>((set, get) => ({
+  workflowHistories: [],
+  loadingWorkflowHistories: false,
   loaded: false,
-  fetchConversations: async () => {
-    if (get().loadingConversations || get().loaded) {
+  fetchWorkflowHistories: async () => {
+    if (get().loadingWorkflowHistories || get().loaded) {
       return;
     }
 
-    set({ loadingConversations: true });
-    const conversations = await fetchConversationList();
-    set({ conversations, loadingConversations: false, loaded: true });
+    set({ loadingWorkflowHistories: true });
+    const workflowHistories = await fetchConversationList();
+    set({ workflowHistories, loadingWorkflowHistories: false, loaded: true });
   },
 }));
 
-export default useConversationStore;
+export default useWorkflowHistoryStore;

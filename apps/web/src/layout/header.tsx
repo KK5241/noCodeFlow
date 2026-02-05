@@ -5,8 +5,11 @@ const { Header } = Layout;
 
 const AppHeader = () => {
   return (
-    <Header className="border-b border-[#e6e6e6] bg-[#f6f6f7]">
-      <div className="flex h-12 items-center justify-between bg-white px-4">
+    <Header
+      className="border-b border-[#e6e6e6] bg-white"
+      style={{ height: 56, lineHeight: 'normal', paddingInline: 0 }}
+    >
+      <div className="flex h-full items-center justify-between px-4">
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-sm bg-[#62c767] text-white">
             <svg
@@ -23,7 +26,7 @@ const AppHeader = () => {
           </div>
           <span className="text-sm font-semibold text-foreground">Visual AI Workflow Builder</span>
           <span className="text-muted-foreground">/</span>
-          <span className="text-small text-[#666]">Untitled Workflow</span>
+          <span className="text-sm text-[#666]">Untitled Workflow</span>
         </div>
 
         <div className="flex items-center gap-3">

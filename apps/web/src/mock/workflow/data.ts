@@ -15,17 +15,17 @@ export type ConversationDetail = {
 };
 
 export const conversationSummaries: ConversationSummary[] = [
-  { id: '8f3125ba-431f-4d79-86d1-0678e0c8a101', title: 'Image Classification Pipeline' },
-  { id: 'be9fbcb6-d3a8-4fd8-ab12-2b42ec81931e', title: 'Text Summarization' },
-  { id: '2f31f099-c470-45c9-a17f-70235f131cbf', title: 'Data Preprocessing' },
-  { id: 'cb5b43f0-2d0f-4240-9fc1-f2f18fed8481', title: 'Sentiment Analysis' },
-  { id: 'b9f55d9b-c68a-489d-b95f-a0f395e4c5ce', title: 'Document Extraction' },
+  { id: '8f3125ba-431f-4d79-86d1-0678e0c8a101', title: '工作流历史记录 01' },
+  { id: 'be9fbcb6-d3a8-4fd8-ab12-2b42ec81931e', title: '工作流历史记录 02' },
+  { id: '2f31f099-c470-45c9-a17f-70235f131cbf', title: '工作流历史记录 03' },
+  { id: 'cb5b43f0-2d0f-4240-9fc1-f2f18fed8481', title: '工作流历史记录 04' },
+  { id: 'b9f55d9b-c68a-489d-b95f-a0f395e4c5ce', title: '工作流历史记录 05' },
 ];
 
 export const mockConversationDetailMap: Record<string, ConversationDetail> = {
   '8f3125ba-431f-4d79-86d1-0678e0c8a101': {
     id: '8f3125ba-431f-4d79-86d1-0678e0c8a101',
-    title: 'Image Classification Pipeline',
+    title: '工作流历史记录 01',
     nodeName: 'GPT-4 Processing',
     description: 'Classify uploaded images and extract metadata.',
     model: 'gpt-4',
@@ -45,7 +45,7 @@ export const mockConversationDetailMap: Record<string, ConversationDetail> = {
   },
   'be9fbcb6-d3a8-4fd8-ab12-2b42ec81931e': {
     id: 'be9fbcb6-d3a8-4fd8-ab12-2b42ec81931e',
-    title: 'Text Summarization',
+    title: '工作流历史记录 02',
     nodeName: 'GPT-4 Summarizer',
     description: 'Summarize long-form article content.',
     model: 'gpt-4o',
@@ -60,7 +60,7 @@ export const mockConversationDetailMap: Record<string, ConversationDetail> = {
   },
   '2f31f099-c470-45c9-a17f-70235f131cbf': {
     id: '2f31f099-c470-45c9-a17f-70235f131cbf',
-    title: 'Data Preprocessing',
+    title: '工作流历史记录 03',
     nodeName: 'Clean Data',
     description: 'Normalize and clean incoming tabular data.',
     model: 'gpt-4',
@@ -75,7 +75,7 @@ export const mockConversationDetailMap: Record<string, ConversationDetail> = {
   },
   'cb5b43f0-2d0f-4240-9fc1-f2f18fed8481': {
     id: 'cb5b43f0-2d0f-4240-9fc1-f2f18fed8481',
-    title: 'Sentiment Analysis',
+    title: '工作流历史记录 04',
     nodeName: 'Sentiment Classifier',
     description: 'Analyze user feedback sentiment by topic.',
     model: 'gpt-4o',
@@ -89,7 +89,7 @@ export const mockConversationDetailMap: Record<string, ConversationDetail> = {
   },
   'b9f55d9b-c68a-489d-b95f-a0f395e4c5ce': {
     id: 'b9f55d9b-c68a-489d-b95f-a0f395e4c5ce',
-    title: 'Document Extraction',
+    title: '工作流历史记录 05',
     nodeName: 'OCR Extraction',
     description: 'Extract fields from scanned documents.',
     model: 'gpt-4',

@@ -1,7 +1,7 @@
 import { ApartmentOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Empty, Input, Layout, Spin, Tooltip } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import useConversationStore from '@/store';
+import useWorkflowHistoryStore from '@/store';
 
 const { Sider } = Layout;
 
@@ -12,8 +12,10 @@ type AppSidebarProps = {
 export function Sidebar({ collapsed }: AppSidebarProps) {
   const navigate = useNavigate();
   const { conversationId } = useParams<{ conversationId: string }>();
-  const conversations = useConversationStore((state) => state.conversations);
-  const loadingConversations = useConversationStore((state) => state.loadingConversations);
+  const workflowHistories = useWorkflowHistoryStore((state) => state.workflowHistories);
+  const loadingWorkflowHistories = useWorkflowHistoryStore(
+    (state) => state.loadingWorkflowHistories
+  );
 
   return (
     <Sider
@@ -49,19 +51,19 @@ export function Sidebar({ collapsed }: AppSidebarProps) {
         </div>
 
         <div className="flex-1 overflow-auto p-2">
-          {loadingConversations && (
+          {loadingWorkflowHistories && (
             <div className="flex justify-center pt-4">
               <Spin size="small" />
             </div>
           )}
 
           {/* 无对话记录展示空icon */}
-          {!loadingConversations && conversations.length === 0 && !collapsed && (
+          {!loadingWorkflowHistories && workflowHistories.length === 0 && !collapsed && (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No conversations" />
           )}
 
           {/* 工作流历史记录 */}
-          {conversations.map((conversation) => {
+          {workflowHistories.map((conversation) => {
             const isActive = conversation.id === conversationId;
             return (
               <Tooltip
