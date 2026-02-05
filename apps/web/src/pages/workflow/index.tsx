@@ -1,14 +1,12 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import {
   AimOutlined,
-  DeleteOutlined,
-  DownloadOutlined,
   ExpandOutlined,
   PlusOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
 } from '@ant-design/icons';
-import { Button, Collapse, Divider, Input, Select, Tag, type CollapseProps } from 'antd';
+import { Button, Collapse, Divider, Input, Select } from 'antd';
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -120,7 +118,6 @@ const logs = [
 const WorkflowPage = () => {
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [collaspe, setCollaspe] = useState(false);
 
   const onConnect = useCallback(
     (params: Connection | Edge) =>

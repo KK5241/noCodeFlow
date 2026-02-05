@@ -7,7 +7,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const collapsed = false;
 
   return (
-    <AntLayout style={{ maxHeight: '100vh' }}>
+    <AntLayout style={{ height: '100vh' }}>
       <Header />
       <AntLayout style={{ flex: 1, minHeight: 0 }}>
         <Sidebar collapsed={collapsed} />
