@@ -11,6 +11,7 @@ import { Button, Collapse, Divider, Input, Select, Spin } from 'antd';
 import ReactFlow, {
   Background,
   BackgroundVariant,
+  BaseEdge,
   Handle,
   MarkerType,
   Position,
@@ -19,6 +20,7 @@ import ReactFlow, {
   useNodesState,
   type Connection,
   type Edge,
+  type EdgeProps,
   type Node,
   type NodeProps,
 } from 'reactflow';
@@ -36,6 +38,7 @@ type WorkflowNodeData = {
   hasSource?: boolean;
 };
 
+// 自定义节点
 function WorkflowNode({ data, selected }: NodeProps<WorkflowNodeData>) {
   const toneClasses = {
     input: 'border-[#98d8b5] bg-[#e8f7ef]',
@@ -71,8 +74,29 @@ function WorkflowNode({ data, selected }: NodeProps<WorkflowNodeData>) {
   );
 }
 
+function SelfLoopEdge({ id, sourceX, sourceY, targetX, targetY, markerEnd, style }: EdgeProps) {
+  const dx = Math.abs(sourceX - targetX);
+  const dy = Math.abs(sourceY - targetY);
+  const loopSize = 60;
+
+  const edgePath =
+    dx >= dy
+      ? `M${sourceX},${sourceY} C${sourceX},${sourceY - loopSize} ${targetX},${
+          targetY - loopSize
+        } ${targetX},${targetY}`
+      : `M${sourceX},${sourceY} C${sourceX + loopSize},${sourceY} ${
+          targetX + loopSize
+        },${targetY} ${targetX},${targetY}`;
+
+  return <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} style={style} />;
+}
+
 const nodeTypes = {
   workflow: WorkflowNode,
+};
+
+const edgeTypes = {
+  self: SelfLoopEdge,
 };
 
 const initialNodes: Node<WorkflowNodeData>[] = [
@@ -123,7 +147,16 @@ const WorkflowPage = () => {
 
   const onConnect = useCallback(
     (params: Connection | Edge) =>
-      setEdges((eds) => addEdge({ ...params, markerEnd: { type: MarkerType.ArrowClosed } }, eds)),
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...params,
+            type: params.source && params.source === params.target ? 'self' : undefined,
+            markerEnd: { type: MarkerType.ArrowClosed },
+          },
+          eds
+        )
+      ),
     [setEdges]
   );
 
@@ -196,6 +229,7 @@ const WorkflowPage = () => {
             nodes={nodes}
             edges={edges}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
