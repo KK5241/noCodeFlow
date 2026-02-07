@@ -1,9 +1,24 @@
+import { useEffect } from 'react';
 import { CheckCircleOutlined, QuestionCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import { Button, Divider, Layout } from 'antd';
+import { useParams } from 'react-router-dom';
+import useWorkflowHistoryStore from '@/store';
 
 const { Header } = Layout;
 
 const AppHeader = () => {
+  const { conversationId } = useParams<{ conversationId?: string }>();
+  const workflowHistories = useWorkflowHistoryStore((state) => state.workflowHistories);
+  const fetchWorkflowHistories = useWorkflowHistoryStore((state) => state.fetchWorkflowHistories);
+
+  useEffect(() => {
+    fetchWorkflowHistories();
+  }, [fetchWorkflowHistories]);
+
+  const workflowTitle =
+    workflowHistories.find((conversation) => conversation.id === conversationId)?.title ??
+    'Untitled Workflow';
+
   return (
     <Header
       className="border-b border-[#e6e6e6] bg-white"
@@ -26,7 +41,7 @@ const AppHeader = () => {
           </div>
           <span className="text-sm font-semibold text-foreground">Visual AI Workflow Builder</span>
           <span className="text-muted-foreground">/</span>
-          <span className="text-sm text-[#666]">Untitled Workflow</span>
+          <span className="text-sm text-[#666]">{workflowTitle}</span>
         </div>
 
         <div className="flex items-center gap-3">
