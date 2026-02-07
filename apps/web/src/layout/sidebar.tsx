@@ -1,7 +1,9 @@
 import { ApartmentOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { useMemo, useState } from 'react';
 import { Button, Empty, Input, Layout, Spin, Tooltip } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import useWorkflowHistoryStore from '@/store';
+import { normalizeSearchText } from '@/utils/search';
 
 const { Sider } = Layout;
 
@@ -12,10 +14,22 @@ type AppSidebarProps = {
 export function Sidebar({ collapsed }: AppSidebarProps) {
   const navigate = useNavigate();
   const { conversationId } = useParams<{ conversationId: string }>();
+  const [searchText, setSearchText] = useState('');
   const workflowHistories = useWorkflowHistoryStore((state) => state.workflowHistories);
   const loadingWorkflowHistories = useWorkflowHistoryStore(
     (state) => state.loadingWorkflowHistories
   );
+
+  const normalizedSearch = normalizeSearchText(searchText);
+
+  const filteredHistories = useMemo(() => {
+    if (!normalizedSearch) {
+      return workflowHistories;
+    }
+    return workflowHistories.filter((conversation) =>
+      conversation.title.toLowerCase().includes(normalizedSearch)
+    );
+  }, [workflowHistories, normalizedSearch]);
 
   return (
     <Sider
@@ -46,6 +60,9 @@ export function Sidebar({ collapsed }: AppSidebarProps) {
               prefix={<SearchOutlined className="text-[#9a9a9a]" />}
               placeholder="Search workflows..."
               style={{ borderRadius: 10, background: '#fff' }}
+              value={searchText}
+              onChange={(event) => setSearchText(event.target.value)}
+              allowClear
             />
           )}
         </div>
@@ -58,12 +75,15 @@ export function Sidebar({ collapsed }: AppSidebarProps) {
           )}
 
           {/* 无对话记录展示空icon */}
-          {!loadingWorkflowHistories && workflowHistories.length === 0 && !collapsed && (
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No conversations" />
+          {!loadingWorkflowHistories && filteredHistories.length === 0 && !collapsed && (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={normalizedSearch ? 'No matching workflows' : 'No conversations'}
+            />
           )}
 
           {/* 工作流历史记录 */}
-          {workflowHistories.map((conversation) => {
+          {filteredHistories.map((conversation) => {
             const isActive = conversation.id === conversationId;
             return (
               <Tooltip
