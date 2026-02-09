@@ -1,4 +1,10 @@
-import { ApartmentOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  ApartmentOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PlusOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 import { useMemo, useState } from 'react';
 import { Button, Empty, Input, Layout, Spin, Tooltip } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,9 +15,10 @@ const { Sider } = Layout;
 
 type AppSidebarProps = {
   collapsed: boolean;
+  onToggleCollapsed: () => void;
 };
 
-export function Sidebar({ collapsed }: AppSidebarProps) {
+export function Sidebar({ collapsed, onToggleCollapsed }: AppSidebarProps) {
   const navigate = useNavigate();
   const { conversationId } = useParams<{ conversationId: string }>();
   const [searchText, setSearchText] = useState('');
@@ -38,8 +45,13 @@ export function Sidebar({ collapsed }: AppSidebarProps) {
       collapsible
       collapsed={collapsed}
       width={300}
-      collapsedWidth={72}
-      style={{ borderRight: '1px solid #e8e8e8', background: '#f5f5f5' }}
+      collapsedWidth={55}
+      style={{
+        borderRight: '1px solid #e8e8e8',
+        background: '#f5f5f5',
+        transition: 'all 260ms cubic-bezier(0.22, 0.61, 0.36, 1)',
+        willChange: 'width',
+      }}
     >
       <div className="flex h-full flex-col">
         <div className="border-b border-[#e8e8e8] px-3 py-4">
@@ -47,12 +59,15 @@ export function Sidebar({ collapsed }: AppSidebarProps) {
             {!collapsed && (
               <span className="font-semibold tracking-wide text-[#666]">WORKFLOWS</span>
             )}
-            <Button
-              type="text"
-              icon={<PlusOutlined />}
-              size="small"
-              style={{ color: '#444', width: 28, height: 28 }}
-            />
+            <div className="flex items-center gap-1">
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                size="small"
+                style={{ color: '#444', width: 28, height: 28 }}
+                onClick={onToggleCollapsed}
+              />
+            </div>
           </div>
 
           {!collapsed && (
