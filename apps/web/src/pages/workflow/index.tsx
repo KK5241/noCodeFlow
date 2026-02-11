@@ -282,7 +282,6 @@ const WorkflowPage = () => {
                   </label>
                 </div>
 
-                <Divider style={{ margin: 0 }} />
 
                 <div className="space-y-3">
                   <div className="font-semibold uppercase tracking-wide text-[#7d7d7d]">
@@ -318,14 +317,14 @@ const WorkflowPage = () => {
         </aside>
       </div>
 
-      <section className="border-t border-[#e8e8e8] bg-[#fafafa]">
+      <section className="border-t border-[#e8e8e8] ">
         <Collapse
           items={[
             {
               key: '1',
               label: 'Execution Logs',
               children: (
-                <div className="max-h-48 overflow-auto bg-[#fafafa]">
+                <div className="max-h-48 overflow-auto">
                   <div className="space-y-2 font-mono text-[13px] text-[#4e4e4e]">
                     {logs.map((line) => (
                       <div key={line}>{line}</div>

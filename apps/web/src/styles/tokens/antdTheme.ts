@@ -1,4 +1,4 @@
-import type { ThemeConfig } from 'antd';
+import { type ThemeConfig } from 'antd';
 import { getResolvedChartTokens, getResolvedColorTokens } from '@/styles/tokens/tokens';
 
 const resolvedColorTokens = getResolvedColorTokens();
@@ -17,12 +17,14 @@ export const antdTheme: ThemeConfig = {
     colorBgBase: resolvedColorTokens.background,
     colorBorder: resolvedColorTokens.border,
     colorBgContainer: resolvedColorTokens.card,
-    colorBgElevated: resolvedColorTokens.popover,
-    colorText: resolvedColorTokens.foreground,
-    colorTextSecondary: resolvedColorTokens['muted-foreground'],
-    colorTextTertiary: resolvedColorTokens['muted-foreground'],
-    colorTextLightSolid: resolvedColorTokens['primary-foreground'],
-    borderRadius: 8,
   },
-  components: {},
+  components: {
+    Button: {
+      primaryShadow: 'none',
+    },
+    Collapse: {
+      borderRadiusLG: 0,
+      contentBg: resolvedColorTokens.background,
+    },
+  },
 };
