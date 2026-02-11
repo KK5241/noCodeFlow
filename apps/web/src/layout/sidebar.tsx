@@ -46,6 +46,7 @@ export function Sidebar({ collapsed, onToggleCollapsed }: AppSidebarProps) {
       collapsed={collapsed}
       width={300}
       collapsedWidth={55}
+      className="border-r border-r-1"
     >
       <div className="flex h-full flex-col">
         <div className="border-b border-[#e8e8e8] px-3 py-4">

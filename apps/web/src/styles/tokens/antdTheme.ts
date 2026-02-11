@@ -14,11 +14,13 @@ export const antdTheme: ThemeConfig = {
     colorInfo: resolvedColorTokens.accent,
     colorLink: resolvedColorTokens.accent,
     colorTextBase: resolvedColorTokens.foreground,
-    colorBgBase: resolvedColorTokens.background,
     colorBorder: resolvedColorTokens.border,
-    colorBgContainer: resolvedColorTokens.card,
+    colorBgBase: resolvedColorTokens.background,
   },
   components: {
+    Input: {
+      colorBgContainer: '#fff',
+    },
     Button: {
       primaryShadow: 'none',
     },

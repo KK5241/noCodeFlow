@@ -34,15 +34,6 @@
   --chart-5: hsl(342 72% 55%);
 
   --radius: 0.5rem;
-
-  --sidebar-background: hsl(220 14% 95%);
-  --sidebar-foreground: hsl(222 14% 24%);
-  --sidebar-primary: hsl(145 55% 38%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(220 16% 91%);
-  --sidebar-accent-foreground: hsl(222 14% 20%);
-  --sidebar-border: hsl(220 12% 86%);
-  --sidebar-ring: hsl(212 86% 56%);
 }
 
 .dark {
@@ -80,12 +71,4 @@
   --chart-4: hsl(41 94% 63%);
   --chart-5: hsl(342 78% 63%);
 
-  --sidebar-background: hsl(222 18% 12%);
-  --sidebar-foreground: hsl(210 16% 90%);
-  --sidebar-primary: hsl(145 50% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(222 14% 20%);
-  --sidebar-accent-foreground: hsl(210 12% 88%);
-  --sidebar-border: hsl(220 12% 24%);
-  --sidebar-ring: hsl(212 86% 62%);
 }
