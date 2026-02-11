@@ -1,5 +1,16 @@
 const varRef = (name: string) => `var(--${name})`;
 
+// 在js中解析css变量
+const resolveCssVar = (name: string) => {
+  if (typeof window === 'undefined' || typeof getComputedStyle === 'undefined') {
+    return varRef(name);
+  }
+
+  const value = getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();
+
+  return value || varRef(name);
+};
+
 // 圆角
 export const radiusTokens = {
   lg: varRef('radius'),
@@ -7,7 +18,7 @@ export const radiusTokens = {
   sm: 'calc(var(--radius) - 4px)',
 } as const;
 
-// 主题色
+// 解析前的token（供tailwind 使用）
 export const colorTokens = {
   background: varRef('background'),
   foreground: varRef('foreground'),
@@ -39,34 +50,42 @@ export const chartTokens = {
   5: varRef('chart-5'),
 } as const;
 
-export const sidebarTokens = {
-  background: varRef('sidebar-background'),
-  foreground: varRef('sidebar-foreground'),
-  primary: varRef('sidebar-primary'),
-  'primary-foreground': varRef('sidebar-primary-foreground'),
-  accent: varRef('sidebar-accent'),
-  'accent-foreground': varRef('sidebar-accent-foreground'),
-  border: varRef('sidebar-border'),
-  ring: varRef('sidebar-ring'),
-} as const;
+// 解析后的token（供antd 使用）
+export const getResolvedColorTokens = () => ({
+  background: resolveCssVar('background'),
+  foreground: resolveCssVar('foreground'),
+  card: resolveCssVar('card'),
+  'card-foreground': resolveCssVar('card-foreground'),
+  popover: resolveCssVar('popover'),
+  'popover-foreground': resolveCssVar('popover-foreground'),
+  primary: resolveCssVar('primary'),
+  'primary-hover': resolveCssVar('primary-hover'),
+  'primary-foreground': resolveCssVar('primary-foreground'),
+  secondary: resolveCssVar('secondary'),
+  'secondary-foreground': resolveCssVar('secondary-foreground'),
+  muted: resolveCssVar('muted'),
+  'muted-foreground': resolveCssVar('muted-foreground'),
+  accent: resolveCssVar('accent'),
+  'accent-foreground': resolveCssVar('accent-foreground'),
+  destructive: resolveCssVar('destructive'),
+  'destructive-foreground': resolveCssVar('destructive-foreground'),
+  border: resolveCssVar('border'),
+  input: resolveCssVar('input'),
+  ring: resolveCssVar('ring'),
+});
+
+export const getResolvedChartTokens = () => ({
+  1: resolveCssVar('chart-1'),
+  2: resolveCssVar('chart-2'),
+  3: resolveCssVar('chart-3'),
+  4: resolveCssVar('chart-4'),
+  5: resolveCssVar('chart-5'),
+});
 
 export const tailwindThemeTokens = {
   borderRadius: radiusTokens,
   colors: {
     ...colorTokens,
     chart: chartTokens,
-    sidebar: {
-      DEFAULT: sidebarTokens.background,
-      foreground: sidebarTokens.foreground,
-      primary: sidebarTokens.primary,
-      'primary-foreground': sidebarTokens['primary-foreground'],
-      accent: sidebarTokens.accent,
-      'accent-foreground': sidebarTokens['accent-foreground'],
-      border: sidebarTokens.border,
-      ring: sidebarTokens.ring,
-    },
   },
 } as const;
-
-export type ColorTokenName = keyof typeof colorTokens;
-export type RadiusTokenName = keyof typeof radiusTokens;

@@ -46,12 +46,6 @@ export function Sidebar({ collapsed, onToggleCollapsed }: AppSidebarProps) {
       collapsed={collapsed}
       width={300}
       collapsedWidth={55}
-      style={{
-        borderRight: '1px solid #e8e8e8',
-        background: '#f5f5f5',
-        transition: 'all 260ms cubic-bezier(0.22, 0.61, 0.36, 1)',
-        willChange: 'width',
-      }}
     >
       <div className="flex h-full flex-col">
         <div className="border-b border-[#e8e8e8] px-3 py-4">

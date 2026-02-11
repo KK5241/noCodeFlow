@@ -1,74 +1,28 @@
 import type { ThemeConfig } from 'antd';
-import { chartTokens, colorTokens, sidebarTokens } from '@/styles/tokens/tokens';
+import { getResolvedChartTokens, getResolvedColorTokens } from '@/styles/tokens/tokens';
+
+const resolvedColorTokens = getResolvedColorTokens();
+const resolvedChartTokens = getResolvedChartTokens();
 
 export const antdTheme: ThemeConfig = {
   cssVar: { key: 'nocodeflow' },
   token: {
-    colorPrimary: colorTokens.primary,
-    colorSuccess: colorTokens.accent,
-    colorWarning: chartTokens[4],
-    colorError: colorTokens.destructive,
-    colorInfo: colorTokens.accent,
-    colorLink: colorTokens.accent,
-    colorTextBase: colorTokens.foreground,
-    colorBgBase: colorTokens.background,
-    colorBorder: colorTokens.border,
-    colorBgContainer: colorTokens.card,
-    colorBgElevated: colorTokens.popover,
-    colorText: colorTokens.foreground,
-    colorTextSecondary: colorTokens['muted-foreground'],
-    colorTextTertiary: colorTokens['muted-foreground'],
-    colorTextLightSolid: colorTokens['primary-foreground'],
+    colorPrimary: resolvedColorTokens.primary,
+    colorSuccess: resolvedColorTokens.accent,
+    colorWarning: resolvedChartTokens[4],
+    colorError: resolvedColorTokens.destructive,
+    colorInfo: resolvedColorTokens.accent,
+    colorLink: resolvedColorTokens.accent,
+    colorTextBase: resolvedColorTokens.foreground,
+    colorBgBase: resolvedColorTokens.background,
+    colorBorder: resolvedColorTokens.border,
+    colorBgContainer: resolvedColorTokens.card,
+    colorBgElevated: resolvedColorTokens.popover,
+    colorText: resolvedColorTokens.foreground,
+    colorTextSecondary: resolvedColorTokens['muted-foreground'],
+    colorTextTertiary: resolvedColorTokens['muted-foreground'],
+    colorTextLightSolid: resolvedColorTokens['primary-foreground'],
     borderRadius: 8,
   },
-  components: {
-    Layout: {
-      headerBg: colorTokens.card,
-      bodyBg: colorTokens.background,
-      siderBg: sidebarTokens.background,
-      triggerBg: sidebarTokens.primary,
-      triggerColor: sidebarTokens['primary-foreground'],
-      lightSiderBg: sidebarTokens.background,
-      lightTriggerBg: sidebarTokens.accent,
-      lightTriggerColor: sidebarTokens['accent-foreground'],
-    },
-    Menu: {
-      itemBg: sidebarTokens.background,
-      itemColor: sidebarTokens.foreground,
-      itemHoverBg: sidebarTokens.accent,
-      itemHoverColor: sidebarTokens['accent-foreground'],
-      itemSelectedBg: sidebarTokens.primary,
-      itemSelectedColor: sidebarTokens['primary-foreground'],
-      darkItemBg: sidebarTokens.background,
-      darkItemColor: sidebarTokens.foreground,
-      darkItemHoverBg: sidebarTokens.accent,
-      darkItemHoverColor: sidebarTokens['accent-foreground'],
-      darkItemSelectedBg: sidebarTokens.primary,
-      darkItemSelectedColor: sidebarTokens['primary-foreground'],
-    },
-    Button: {
-      colorPrimary: colorTokens.primary,
-      colorPrimaryBg: colorTokens.primary,
-      colorPrimaryHover: colorTokens['primary-hover'],
-      colorPrimaryText: colorTokens['primary-foreground'],
-      primaryShadow: 'none',
-    },
-    Input: {
-      colorBgContainer: colorTokens.card,
-      colorBorder: colorTokens.input,
-      activeBorderColor: colorTokens.ring,
-      hoverBorderColor: colorTokens.ring,
-    },
-    Select: {
-      colorBgContainer: colorTokens.card,
-      colorBorder: colorTokens.input,
-      activeBorderColor: colorTokens.ring,
-      hoverBorderColor: colorTokens.ring,
-    },
-    Collapse: {
-      /* 这里是你的组件 token */
-      contentBg: colorTokens.background,
-      borderRadiusLG: 0,
-    },
-  },
+  components: {},
 };
