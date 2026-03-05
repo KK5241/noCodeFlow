@@ -92,7 +92,7 @@ export function Sidebar({ collapsed, onToggleCollapsed }: AppSidebarProps) {
             />
           )}
 
-          {/* 工作流历史记录 */}
+          {/* 历史记录 */}
           {filteredHistories.map((conversation) => {
             const isActive = conversation.id === conversationId;
             return (

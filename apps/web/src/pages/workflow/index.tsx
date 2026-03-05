@@ -160,7 +160,7 @@ const WorkflowPage = () => {
     [setEdges]
   );
 
-  // 获取工作流历史记录
+  // 获取历史记录
   useEffect(() => {
     fetchWorkflowHistories();
   }, [fetchWorkflowHistories]);
